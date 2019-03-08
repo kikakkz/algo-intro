@@ -15,3 +15,5 @@ Already Implemented
 + 8 number game
 
 + exp (loop & recur)
+
++ fibonacci (recur & rect)
