@@ -13,3 +13,5 @@ Already Implemented
 + matrix multiply (recur)
 
 + 8 number game
+
++ exp (loop & recur)
