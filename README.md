@@ -6,6 +6,7 @@ Already Implemented
 + insert sort (loop)
 + insert sort (recur)
 + merge sort
++ quick sort
 
 + force search
 + binary search
