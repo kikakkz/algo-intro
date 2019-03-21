@@ -30,7 +30,30 @@ static int part(int *src, int start, int end)
     return i;
 }
 
-static void qqsort(int *src, int start, int end)
+static int part_v1(int *src, int start, int end)
+{
+    int pivot = src[start];
+    int i = start, j = start + 1;
+
+    while (j <= end) {
+        while (j <= end && src[j] < pivot) j++;
+        i = j - 1;
+        break;
+    }
+
+    while (j <= end) {
+        while (j <= end && pivot <= src[j]) j++;
+        if (j <= end) {
+            i++;
+            exchange(&src[i], &src[j]);
+        }
+    }
+
+    exchange(&src[i], &src[start]);
+    return i;
+}
+
+static void qqsort(int *src, int start, int end, int (*f)(int *, int, int))
 {
     int pid = end;
     int send = end;
@@ -40,13 +63,13 @@ static void qqsort(int *src, int start, int end)
         return;
     }
 
-    pid = part(src, start, end);
+    pid = f(src, start, end);
 
     send = MAX(pid - 1, start);
     mstart = MIN(pid + 1, end);
 
-    qqsort(src, start, send);
-    qqsort(src, mstart, end);
+    qqsort(src, start, send, f);
+    qqsort(src, mstart, end, f);
 }
 
 int main(int argc, char *argv[])
@@ -56,7 +79,13 @@ int main(int argc, char *argv[])
 
     print(SRC, len, "ORIG");
     now();
-    qqsort(SRC, 0, len - 1);
+    qqsort(SRC, 0, len - 1, part);
+    now();
+    print(SRC, len, "SORTED");
+
+    print(SRC, len, "ORIG");
+    now();
+    qqsort(SRC, 0, len - 1, part_v1);
     now();
     print(SRC, len, "SORTED");
 
